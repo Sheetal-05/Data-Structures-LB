@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        //iterate all teh elemens
+        vector<int>ans;
+        for(int i = 0; i < nums.size(); i++){
+            int index = abs(nums[i]) - 1;
+            //check if the value is -ve means it is already incountered before
+            if(nums[index] < 0){
+                ans.push_back(index + 1);
+            }
+            //mark the value as -ve
+            nums[index] = nums[index] * -1;
+
+        }
+        return ans;
+    }
+};
