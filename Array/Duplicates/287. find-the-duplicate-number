@@ -1,0 +1,53 @@
+//can be done by 2 loops -? n2
+can be done by sorting - nlogn
+can be done by hash map - n , n
+
+optimal will be -ve apprach or slow fast pointer --> n , 1
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        //2 loop -> 0(n2)
+        //sort and check -> 0(nlogn)
+        // binary search -> logn
+//slow and fast -> 0(n)
+// check the cycle then find the point
+        int slow = 0; 
+        int fast = 0;
+        //check
+        do{
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }while(slow != fast);
+
+        //find
+        slow = 0;
+        do{
+            slow = nums[slow];
+            fast = nums[fast];
+        }while(slow != fast);
+
+        return slow;
+
+        
+
+    }
+};
+
+
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int ans = 0;
+        for(int i = 0; i < nums.size(); i++){
+            int index = abs(nums[i]);
+            if(nums[index] < 0){
+                ans = index;
+            }
+            nums[index] = nums[index] * -1;
+        }
+        return ans;
+        
+    }
+};
