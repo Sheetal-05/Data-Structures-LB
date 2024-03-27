@@ -1,0 +1,66 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.size();
+        int left = 0; 
+        int right = 0;
+        int len = 0;
+        int freq[245] = {0};
+
+        while(right < n){
+            freq[s[right]]++;
+            while(freq[s[right]] > 1){
+                freq[s[left]]--;
+                left++;
+            }
+            
+            len = max(len , (right - left) + 1);
+            right++;
+        }
+        return len;
+
+    }
+};  
+//sc = 0(1)
+
+
+
+
+
+//sc == 0(n) -> set
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.length();
+        int left = 0; 
+        int right = 0;
+        int len = 0;
+        unordered_set<char> cset;
+
+        while(right < n){
+            //if char is not present in set add it 
+            if(cset.count(s[right]) == 0){
+                cset.insert(s[right]);
+                len = max(len , (right - left) + 1);
+
+            }
+            
+            else{
+            //if the char is already present shrink the size 
+            while(cset.count(s[right]) > 0){
+                cset.erase(s[left]);
+                left++;
+            }
+
+            // add the curr right val after shrinking
+            cset.insert(s[right]);
+
+            }
+            right++;
+        }
+        return len;
+          
+    }
+};
