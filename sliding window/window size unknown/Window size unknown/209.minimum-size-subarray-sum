@@ -21,4 +21,68 @@ public:
         }
         return len;
     }
+};  sc 0(n)
+
+
+
+
+optiimal sc == 0(1)
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int i = 0;
+        int j = 0;
+        int mini = INT_MAX;
+        int start = 0;
+        int count = t.length();
+        // unordered_map<char, int> mp;
+        int freq[256] = {0};
+
+        //store the freq
+        for(char &ch: t){
+            freq[ch]++;
+        }
+
+        if(t.length() > s.length()){
+            return "";
+        }
+
+        //traverse
+        while(j < s.length()){
+            if(freq[s[j]] > 0){
+                //req ele milgya 
+                count--;
+            }
+
+            freq[s[j]]--;
+
+            //if condition satisfied
+            while(count == 0){
+                //len cal
+                int len = j - i + 1;
+                if(mini > len){
+                    mini = len;
+                    start = i;
+                }
+                //shrink window
+
+                freq[s[i]]++;
+                if(freq[s[i]] > 0){
+                    //it is required
+                    count++;
+                }
+                i++;
+
+            }
+            j++;
+
+        }
+        if (mini == INT_MAX) {
+            return "";
+        } else {
+            return s.substr(start, mini);
+        }
+
+        
+    }
 };
