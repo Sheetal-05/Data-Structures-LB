@@ -1,28 +1,48 @@
 class Solution {
 public:
-    int maxSubarrayLength(vector<int>& nums, int k) {
-        int i = 0;
-        int j = 0;
-        int len = 0;
-        unordered_map<int, int> mp;
+    long long countSubarrays(vector<int>& nums, int k) {
+        int maxi = 0;
+        
+        int n = nums.size();
 
-        if( k > nums.size()){
+        if(k > n){
             return 0;
         }
+        maxi = *max_element(nums.begin(), nums.end());
+        int count = 0;
+        long long ans = 0;
 
-        while( j < nums.size()){
-            
-                //add the freq
-                mp[nums[j]]++;
-            
-            while(mp[nums[j]] > k){
-                mp[nums[i]]--;
+        int i = 0;
+        int j = 0;
+
+        while (j < n) {
+            if (nums[j] == maxi) {
+                count++;
+            }
+            while (count >= k) {
+               ans += n - j;
+                if (nums[i] == maxi) {
+                    count--;
+                }
+                 
                 i++;
             }
-            len = max(len , (j - i) + 1);
             j++;
         }
-        return len;
 
+        return ans;
+
+        // for(int i = 0; i < n ; i++){
+        //     for(int j = i ; j < n ; j++){
+        //         if(nums[j] == maxi){
+        //             count++;
+        //         }
+        //         if(count >= k){
+        //             ans++;
+        //         }
+        //     }
+        //     count = 0;
+        // }
+        // return ans;
     }
 };
