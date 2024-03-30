@@ -1,0 +1,39 @@
+class Solution {
+public:
+
+int atmost_k_distinct(vector<int>& nums, int k){
+    int i = 0; 
+    int j = 0;
+    int len = 0;
+
+    map<int, int> mp;
+
+    while(j < nums.size()){
+        mp[nums[j]]++;
+
+        while(mp.size() > k){
+            mp[nums[i]]--;
+            
+            if(mp[nums[i]] == 0){
+                mp.erase(nums[i]);
+            }
+            i++;
+
+        }
+        len += j - i + 1;
+        j++;
+    }
+    return len;
+
+}
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        int ans = atmost_k_distinct(nums, k) - atmost_k_distinct(nums , k -1);
+        return ans;
+    }
+};
+
+
+//subarray with atmost k distinct integers nikalna hota toh it will conatin all elements like 1 {12} {123}
+// if k = 3 for atmost it will contain 1 , 12 , 123
+// and for atmost k- 1 = 2 = 1 , 12
+// exactly 3 will be k - k- 1
