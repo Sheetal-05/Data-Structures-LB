@@ -1,0 +1,89 @@
+class Solution {
+public:
+    int rec(vector<int>& nums, int i) {
+        if (i < 0) {
+            return 0;
+        }
+        if (i == 1) {
+            return nums[i];
+        }
+
+        int inc = nums[i] + rec(nums, i - 2);
+        int exl = 0 + rec(nums, i - 1);
+
+        int ans = max(inc, exl);
+        return ans;
+    }
+
+    int recdp(vector<int>& nums, int i, vector<int>& dp) {
+        // base case
+        if (i < 0) {
+            return 0;
+        }
+
+        if (i == 1) {
+            return nums[i];
+        }
+
+        if (dp[i] != -1) {
+            return dp[i];
+        }
+
+        int inc = nums[i] + recdp(nums, i - 2, dp);
+        int exl = 0 + recdp(nums, i - 1, dp);
+
+        dp[i] = max(inc, exl);
+        return dp[i];
+    }
+
+    int recdp1(vector<int>& nums, int n, vector<int>& dp) {
+        // base case
+
+        dp[0] = nums[0];
+        for(int i = 1; i < n ; i++){
+            int incl = nums[i];
+            if(i > 1){
+                incl += dp[i - 2];
+            }
+            int exc = dp[i - 1];
+
+            dp[i] = max(incl , exc);
+        }
+        return dp[n - 1];
+    }
+
+
+int recdpS(vector<int>& nums, int n, vector<int>& dp) {
+        int prev = nums[0];
+        int prev2 = 0;
+       
+
+        for(int i = 1; i < n ; i++){
+            int incl = nums[i];
+            if(i > 1){
+                incl += prev2;
+            }
+            int exc = prev;
+
+            int curr = max(incl , exc);
+            prev2 = prev;
+            prev = curr;
+        }
+        return prev;
+    }
+
+
+
+
+
+
+
+
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        // int ans = rec(nums, i);
+        vector<int> dp(n + 2, -1);
+        int ans = recdpS(nums, n, dp);
+        return ans;
+    }
+};
